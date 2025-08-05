@@ -149,7 +149,7 @@
   /* Portfolio Cards */
   .portfolio-card {
     @apply bg-card rounded-xl overflow-hidden shadow-soft hover:shadow-large 
-           transform hover:-translate-y-2 transition-all duration-500 border border-border/50 group;
+           transform hover:-translate-y-2 transition-all duration-500 border border-border/50;
   }
 
   /* Text Animations */
