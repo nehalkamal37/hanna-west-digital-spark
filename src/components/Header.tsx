@@ -36,6 +36,7 @@ const Header = () => {
 
   return (
     <header
+      role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-white/95 backdrop-blur-md shadow-soft' 
@@ -47,27 +48,38 @@ const Header = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-2xl font-playfair font-bold text-primary hover:text-primary-hover transition-colors duration-300"
+            className="text-2xl font-playfair font-bold text-primary hover:text-primary-hover transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
+            aria-label="HannaWest Solutions - Return to homepage"
           >
             HannaWest Solutions
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav 
+            className="hidden md:flex items-center space-x-8"
+            role="navigation"
+            aria-label="Main navigation"
+          >
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={() => handleNavClick(item.href)}
-                className={`font-medium transition-colors duration-300 hover:text-primary relative group ${
+                className={`font-medium transition-colors duration-300 hover:text-primary relative group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1 ${
                   location.pathname === item.href || 
                   (item.href === '/' && location.pathname === '/')
                     ? 'text-primary' 
                     : 'text-foreground'
                 }`}
+                aria-current={
+                  location.pathname === item.href || 
+                  (item.href === '/' && location.pathname === '/') 
+                    ? 'page' 
+                    : undefined
+                }
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-[calc(100%-1rem)]"></span>
               </Link>
             ))}
           </nav>
@@ -75,35 +87,49 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-primary/10 transition-colors duration-300"
-            aria-label="Toggle mobile menu"
+            className="md:hidden p-2 rounded-lg hover:bg-primary/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            aria-label={isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {isMobileMenuOpen ? (
-              <X className="h-6 w-6 text-foreground" />
+              <X className="h-6 w-6 text-foreground" aria-hidden="true" />
             ) : (
-              <Menu className="h-6 w-6 text-foreground" />
+              <Menu className="h-6 w-6 text-foreground" aria-hidden="true" />
             )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         <div
+          id="mobile-navigation"
           className={`md:hidden transition-all duration-300 overflow-hidden ${
             isMobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
           }`}
+          aria-hidden={!isMobileMenuOpen}
         >
-          <nav className="py-4 border-t border-border/50">
+          <nav 
+            className="py-4 border-t border-border/50"
+            role="navigation"
+            aria-label="Mobile navigation"
+          >
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={() => handleNavClick(item.href)}
-                className={`block py-3 px-4 font-medium transition-colors duration-300 hover:text-primary hover:bg-primary/5 rounded-lg ${
+                className={`block py-3 px-4 font-medium transition-colors duration-300 hover:text-primary hover:bg-primary/5 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                   location.pathname === item.href || 
                   (item.href === '/' && location.pathname === '/')
                     ? 'text-primary bg-primary/5' 
                     : 'text-foreground'
                 }`}
+                aria-current={
+                  location.pathname === item.href || 
+                  (item.href === '/' && location.pathname === '/') 
+                    ? 'page' 
+                    : undefined
+                }
               >
                 {item.name}
               </Link>
